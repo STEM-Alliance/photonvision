@@ -32,6 +32,7 @@ import org.photonvision.vision.opencv.ImageRotationMode;
     @JsonSubTypes.Type(value = ReflectivePipelineSettings.class),
     @JsonSubTypes.Type(value = DriverModePipelineSettings.class),
     @JsonSubTypes.Type(value = AprilTagPipelineSettings.class),
+    @JsonSubTypes.Type(value = GpuAprilTagPipelineSettings.class),
     @JsonSubTypes.Type(value = ArucoPipelineSettings.class),
     @JsonSubTypes.Type(value = ObjectDetectionPipelineSettings.class)
 })
