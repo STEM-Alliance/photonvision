@@ -15,25 +15,30 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.photonvision.vision.pipeline;
+package org.photonvision.jni;
 
-@SuppressWarnings("rawtypes")
-public enum PipelineType {
-    FocusCamera(-3, FocusPipeline.class),
-    Calib3d(-2, Calibrate3dPipeline.class),
-    DriverMode(-1, DriverModePipeline.class),
-    Reflective(0, ReflectivePipeline.class),
-    ColoredShape(1, ColoredShapePipeline.class),
-    AprilTag(2, AprilTagPipeline.class),
-    Aruco(3, ArucoPipeline.class),
-    ObjectDetection(4, ObjectDetectionPipeline.class),
-    GPUAprilTag(5, GpuAprilTagPipeline.class);
+import edu.wpi.first.apriltag.AprilTagDetection;
 
-    public final int baseIndex;
-    public final Class clazz;
-
-    PipelineType(int baseIndex, Class clazz) {
-        this.baseIndex = baseIndex;
-        this.clazz = clazz;
+public class GpuDetectorJNI {
+    static {
+        LibraryLoader.load971();
     }
+
+    public static native long createGpuDetector(int width, int height);
+
+    public static native void setparams(
+            long handle,
+            double fx,
+            double cx,
+            double fy,
+            double cy,
+            double k1,
+            double k2,
+            double p1,
+            double p2,
+            double k3);
+
+    public static native void destroyGpuDetector(long handle);
+
+    public static native AprilTagDetection[] processimage(long handle, long matAddress);
 }

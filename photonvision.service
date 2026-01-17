@@ -1,0 +1,18 @@
+[Unit]
+Description=PhotonVision Computer Vision Service
+After=network.target network-online.target
+Wants=network-online.target
+
+[Service]
+# Replace 'pi' with the user you want to run PhotonVision as
+User=pi
+Type=simple
+WorkingDirectory=/opt/photonvision
+# Ensure the path to the jar is correct. 
+# You might need to add -Djava.library.path=/usr/lib/ if your native libs are there and not automatically found
+ExecStart=/usr/bin/java -jar /opt/photonvision/photonvision.jar
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

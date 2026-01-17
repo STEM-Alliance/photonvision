@@ -32,6 +32,7 @@ import org.opencv.core.Core;
 public class LibraryLoader {
     private static boolean hasWpiLoaded = false;
     private static boolean hasTargetingLoaded = false;
+    private static boolean has971Loaded = false;
 
     public static boolean loadWpiLibraries() {
         if (hasWpiLoaded) return true;
@@ -77,5 +78,17 @@ public class LibraryLoader {
             hasTargetingLoaded = false;
         }
         return hasTargetingLoaded;
+    }
+
+    public static boolean load971() {
+        if (has971Loaded) return true;
+        try {
+            System.loadLibrary("971apriltag");
+            has971Loaded = true;
+        } catch (UnsatisfiedLinkError e) {
+            e.printStackTrace();
+            has971Loaded = false;
+        }
+        return has971Loaded;
     }
 }
