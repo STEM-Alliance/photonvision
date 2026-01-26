@@ -45,6 +45,7 @@ const resetCurrentBuffer = () => {
               <th
                 v-if="
                   currentPipelineSettings.pipelineType === PipelineType.AprilTag ||
+                  currentPipelineSettings.pipelineType === PipelineType.GPUAprilTag ||
                   currentPipelineSettings.pipelineType === PipelineType.Aruco
                 "
                 class="text-center text-white"
@@ -69,6 +70,7 @@ const resetCurrentBuffer = () => {
               <template
                 v-if="
                   (currentPipelineSettings.pipelineType === PipelineType.AprilTag ||
+                    currentPipelineSettings.pipelineType === PipelineType.GPUAprilTag ||
                     currentPipelineSettings.pipelineType === PipelineType.Aruco) &&
                   useCameraSettingsStore().currentPipelineSettings.solvePNPEnabled
                 "
@@ -86,6 +88,7 @@ const resetCurrentBuffer = () => {
               <td
                 v-if="
                   currentPipelineSettings.pipelineType === PipelineType.AprilTag ||
+                  currentPipelineSettings.pipelineType === PipelineType.GPUAprilTag ||
                   currentPipelineSettings.pipelineType === PipelineType.Aruco
                 "
                 class="text-center"
@@ -118,6 +121,7 @@ const resetCurrentBuffer = () => {
               <template
                 v-if="
                   (currentPipelineSettings.pipelineType === PipelineType.AprilTag ||
+                    currentPipelineSettings.pipelineType === PipelineType.GPUAprilTag ||
                     currentPipelineSettings.pipelineType === PipelineType.Aruco) &&
                   useCameraSettingsStore().currentPipelineSettings.solvePNPEnabled
                 "
@@ -134,6 +138,7 @@ const resetCurrentBuffer = () => {
     <v-container
       v-if="
         (currentPipelineSettings.pipelineType === PipelineType.AprilTag ||
+          currentPipelineSettings.pipelineType === PipelineType.GPUAprilTag ||
           currentPipelineSettings.pipelineType === PipelineType.Aruco) &&
         currentPipelineSettings.doMultiTarget &&
         useCameraSettingsStore().isCurrentVideoFormatCalibrated &&

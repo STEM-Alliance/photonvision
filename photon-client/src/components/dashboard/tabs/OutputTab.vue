@@ -14,6 +14,7 @@ const theme = useTheme();
 const isTagPipeline = computed(
   () =>
     useCameraSettingsStore().currentPipelineType === PipelineType.AprilTag ||
+    useCameraSettingsStore().currentPipelineType === PipelineType.GPUAprilTag ||
     useCameraSettingsStore().currentPipelineType === PipelineType.Aruco
 );
 
@@ -71,6 +72,7 @@ const interactiveCols = computed(() =>
     <pv-switch
       v-if="
         (currentPipelineSettings.pipelineType === PipelineType.AprilTag ||
+          currentPipelineSettings.pipelineType === PipelineType.GPUAprilTag ||
           currentPipelineSettings.pipelineType === PipelineType.Aruco) &&
         useCameraSettingsStore().isCurrentVideoFormatCalibrated &&
         useCameraSettingsStore().currentPipelineSettings.solvePNPEnabled
@@ -87,6 +89,7 @@ const interactiveCols = computed(() =>
     <pv-switch
       v-if="
         (currentPipelineSettings.pipelineType === PipelineType.AprilTag ||
+          currentPipelineSettings.pipelineType === PipelineType.GPUAprilTag ||
           currentPipelineSettings.pipelineType === PipelineType.Aruco) &&
         useCameraSettingsStore().isCurrentVideoFormatCalibrated &&
         useCameraSettingsStore().currentPipelineSettings.solvePNPEnabled
