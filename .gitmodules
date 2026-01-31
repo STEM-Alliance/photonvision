@@ -1,0 +1,3 @@
+[submodule "GpuDetectorJNI"]
+	path = GpuDetectorJNI
+	url = https://github.com/FRC-Team-4143/GpuDetectorJNI.git

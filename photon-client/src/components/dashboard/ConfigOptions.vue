@@ -85,7 +85,9 @@ const tabGroups = computed<ConfigOption[][]>(() => {
   if (useCameraSettingsStore().isDriverMode) return [[allTabs.inputTab]];
 
   const allow3d = useCameraSettingsStore().currentPipelineSettings.solvePNPEnabled;
-  const isAprilTag = useCameraSettingsStore().currentWebsocketPipelineType === WebsocketPipelineType.AprilTag;
+  const isAprilTag =
+    useCameraSettingsStore().currentWebsocketPipelineType === WebsocketPipelineType.AprilTag ||
+    useCameraSettingsStore().currentWebsocketPipelineType === WebsocketPipelineType.GPUAprilTag;
   const isAruco = useCameraSettingsStore().currentWebsocketPipelineType === WebsocketPipelineType.Aruco;
   const isObjectDetection =
     useCameraSettingsStore().currentWebsocketPipelineType === WebsocketPipelineType.ObjectDetection;

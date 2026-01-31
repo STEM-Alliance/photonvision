@@ -10,7 +10,8 @@ export enum PipelineType {
   ColoredShape = 4,
   AprilTag = 5,
   Aruco = 6,
-  ObjectDetection = 7
+  ObjectDetection = 7,
+  GPUAprilTag = 8
 }
 
 export enum AprilTagFamily {
@@ -254,6 +255,46 @@ export const DefaultAprilTagPipelineSettings: AprilTagPipelineSettings = {
   doSingleTargetAlways: false
 };
 
+export interface GpuAprilTagPipelineSettings extends PipelineSettings {
+  pipelineType: PipelineType.GPUAprilTag;
+  hammingDist: number;
+  numIterations: number;
+  decimate: number;
+  blur: number;
+  decisionMargin: number;
+  refineEdges: boolean;
+  debug: boolean;
+  threads: number;
+  tagFamily: AprilTagFamily;
+  doMultiTarget: boolean;
+  doSingleTargetAlways: boolean;
+}
+export type ConfigurableGpuAprilTagPipelineSettings = Partial<
+  Omit<GpuAprilTagPipelineSettings, "pipelineType" | "hammingDist" | "debug">
+> &
+  ConfigurablePipelineSettings;
+export const DefaultGpuAprilTagPipelineSettings: GpuAprilTagPipelineSettings = {
+  ...DefaultPipelineSettings,
+  cameraGain: 75,
+  targetModel: TargetModel.AprilTag6p5in_36h11,
+  ledMode: false,
+  outputShowMultipleTargets: true,
+  cameraExposureRaw: 20,
+  pipelineType: PipelineType.GPUAprilTag,
+
+  hammingDist: 0,
+  numIterations: 40,
+  decimate: 1,
+  blur: 0,
+  decisionMargin: 35,
+  refineEdges: true,
+  debug: false,
+  threads: 4,
+  tagFamily: AprilTagFamily.Family36h11,
+  doMultiTarget: false,
+  doSingleTargetAlways: false
+};
+
 export interface ArucoPipelineSettings extends PipelineSettings {
   pipelineType: PipelineType.Aruco;
 
@@ -344,6 +385,7 @@ export type ActivePipelineSettings =
   | ReflectivePipelineSettings
   | ColoredShapePipelineSettings
   | AprilTagPipelineSettings
+  | GpuAprilTagPipelineSettings
   | ArucoPipelineSettings
   | ObjectDetectionPipelineSettings
   | Calibration3dPipelineSettings;
@@ -352,6 +394,7 @@ export type ActiveConfigurablePipelineSettings =
   | ConfigurableReflectivePipelineSettings
   | ConfigurableColoredShapePipelineSettings
   | ConfigurableAprilTagPipelineSettings
+  | ConfigurableGpuAprilTagPipelineSettings
   | ConfigurableArucoPipelineSettings
   | ConfigurableObjectDetectionPipelineSettings
   | ConfigurableCalibration3dPipelineSettings;
