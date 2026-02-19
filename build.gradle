@@ -39,7 +39,7 @@ ext {
     javalinVersion = "6.7.0"
     libcameraDriverVersion = "v2026.0.0"
     rknnVersion = "v2026.0.1"
-    rubikVersion = "v2026.0.1"
+    rubikVersion = "dev-v2026.0.1-3-g977bb2e"
     frcYear = "2026"
     mrcalVersion = "v2026.0.0";
 
@@ -66,8 +66,8 @@ spotless {
         }
         toggleOffOn()
         googleJavaFormat()
-        indentWithTabs(2)
-        indentWithSpaces(4)
+        leadingSpacesToTabs(2)
+        leadingTabsToSpaces(4)
         removeUnusedImports()
         trimTrailingWhitespace()
         endWithNewline()
@@ -78,7 +78,7 @@ spotless {
             exclude '**/build/**', '**/build-*/**'
         }
         greclipse()
-        indentWithSpaces(4)
+        leadingTabsToSpaces(4)
         trimTrailingWhitespace()
         endWithNewline()
     }
@@ -88,7 +88,7 @@ spotless {
             exclude '**/build/**', '**/build-*/**', '**/node_modules/**'
         }
         trimTrailingWhitespace()
-        indentWithSpaces(2)
+        leadingTabsToSpaces(2)
         endWithNewline()
     }
 }
