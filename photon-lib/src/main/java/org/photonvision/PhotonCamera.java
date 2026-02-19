@@ -77,6 +77,9 @@ public class PhotonCamera implements AutoCloseable {
     MultiSubscriber topicNameSubscriber;
     NetworkTable rootPhotonTable;
 
+    BooleanPublisher recordingPublisher;
+    BooleanSubscriber recordingSubscriber;
+
     @Override
     public void close() {
         resultSubscriber.close();
@@ -91,6 +94,8 @@ public class PhotonCamera implements AutoCloseable {
         pipelineIndexState.close();
         ledModeRequest.close();
         ledModeState.close();
+        recordingPublisher.close();
+        recordingSubscriber.close();
         pipelineIndexRequest.close();
         cameraIntrinsicsSubscriber.close();
         cameraDistortionSubscriber.close();
@@ -169,6 +174,8 @@ public class PhotonCamera implements AutoCloseable {
 
         ledModeRequest = rootPhotonTable.getIntegerTopic("ledModeRequest").publish();
         ledModeState = rootPhotonTable.getIntegerTopic("ledModeState").subscribe(-1);
+        recordingPublisher = rootPhotonTable.getBooleanTopic("recordingRequest").publish();
+        recordingSubscriber = rootPhotonTable.getBooleanTopic("recordingState").subscribe(false);
         versionEntry = rootPhotonTable.getStringTopic("version").subscribe("");
 
         // Existing is enough to make this multisubscriber do its thing
@@ -415,6 +422,50 @@ public class PhotonCamera implements AutoCloseable {
             case 2 -> VisionLEDMode.kBlink;
             default -> VisionLEDMode.kDefault;
         };
+    }
+
+    public enum VisionLEDMode {
+        kDefault(-1),
+        kOff(0),
+        kOn(1),
+        kBlink(2);
+
+        public final int value;
+
+        VisionLEDMode(int value) {
+            this.value = value;
+        }
+
+        public static VisionLEDMode fromInt(int value) {
+            return switch (value) {
+                case 0 -> kOff;
+                case 1 -> kOn;
+                case 2 -> kBlink;
+                default -> kDefault;
+            };
+        }
+    }
+
+    /**
+     * Returns whether the camera is currently recording video.
+     *
+     * @return Whether the camera is currently recording.
+     */
+    public boolean isRecording() {
+        return recordingSubscriber.get();
+    }
+
+    /**
+     * Sets whether the camera should record video. When enabled, the camera will save MJPEG encoded
+     * video of the AprilTag detection output to the coprocessor's filesystem in MKV containers. File
+     * names include the current date/time and match information if available.
+     *
+     * <p>Note: This is a global setting that affects all cameras.
+     *
+     * @param recording Whether to start (true) or stop (false) recording.
+     */
+    public void setRecording(boolean recording) {
+        recordingPublisher.set(recording);
     }
 
     /**

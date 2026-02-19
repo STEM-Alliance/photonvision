@@ -50,6 +50,7 @@ import org.photonvision.vision.camera.csi.LibcameraGpuSource;
 import org.photonvision.vision.frame.Frame;
 import org.photonvision.vision.frame.consumer.FileSaveFrameConsumer;
 import org.photonvision.vision.frame.consumer.MJPGFrameConsumer;
+import org.photonvision.vision.frame.consumer.VideoRecordingConsumer;
 import org.photonvision.vision.pipeline.AdvancedPipelineSettings;
 import org.photonvision.vision.pipeline.OutputStreamPipeline;
 import org.photonvision.vision.pipeline.ReflectivePipelineSettings;
@@ -94,6 +95,8 @@ public class VisionModule {
 
     MJPGFrameConsumer inputVideoStreamer;
     MJPGFrameConsumer outputVideoStreamer;
+
+    VideoRecordingConsumer videoRecordingConsumer;
 
     boolean mismatch;
 
@@ -209,6 +212,11 @@ public class VisionModule {
         outputVideoStreamer =
                 new MJPGFrameConsumer(
                         camHostname + "_Port_" + outputStreamPort + "_Output_MJPEG_Server", outputStreamPort);
+
+        videoRecordingConsumer =
+                new VideoRecordingConsumer(
+                        () -> visionSource.getSettables().getConfiguration().nickname,
+                        visionSource.getSettables().getConfiguration().uniqueName);
     }
 
     private void recreateStreamResultConsumers() {
@@ -227,6 +235,10 @@ public class VisionModule {
         streamResultConsumers.add(
                 (frame, tgts) -> {
                     if (frame != null) outputVideoStreamer.accept(frame.processedImage);
+                });
+        streamResultConsumers.add(
+                (frame, tgts) -> {
+                    if (frame != null) videoRecordingConsumer.accept(frame.processedImage);
                 });
     }
 
@@ -331,9 +343,25 @@ public class VisionModule {
         outputVideoStreamer.close();
         inputFrameSaver.close();
         outputFrameSaver.close();
+        videoRecordingConsumer.close();
 
         changeSubscriberHandle.stop();
         setVisionLEDs(false);
+    }
+
+    /** Start video recording for this camera. */
+    public void startRecording() {
+        videoRecordingConsumer.startRecording();
+    }
+
+    /** Stop video recording for this camera. */
+    public void stopRecording() {
+        videoRecordingConsumer.stopRecording();
+    }
+
+    /** Returns whether this camera is currently recording video. */
+    public boolean isRecording() {
+        return videoRecordingConsumer.isRecording();
     }
 
     public void setFov(double fov) {

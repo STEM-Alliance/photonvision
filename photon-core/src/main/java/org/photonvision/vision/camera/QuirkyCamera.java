@@ -41,9 +41,11 @@ public class QuirkyCamera {
                     // Mac Facetime Camera shared into Windows in Bootcamp
                     new QuirkyCamera(-1, -1, "FaceTime HD Camera", CameraQuirk.CompletelyBroken),
                     // Microsoft Lifecam
-                    new QuirkyCamera(-1, -1, "LifeCam HD-3000", CameraQuirk.Gain, CameraQuirk.LifeCamControls),
+                    new QuirkyCamera(
+                            -1, -1, "LifeCam HD-3000", CameraQuirk.Gain, CameraQuirk.LifeCamControls),
                     // Microsoft Lifecam
-                    new QuirkyCamera(-1, -1, "LifeCam Cinema (TM)", CameraQuirk.Gain, CameraQuirk.LifeCamControls),
+                    new QuirkyCamera(
+                            -1, -1, "LifeCam Cinema (TM)", CameraQuirk.Gain, CameraQuirk.LifeCamControls),
                     // PS3Eye
                     new QuirkyCamera(
                             0x1415, 0x2000, CameraQuirk.Gain, CameraQuirk.FPSCap100, CameraQuirk.PsEyeControls),
@@ -89,7 +91,12 @@ public class QuirkyCamera {
                             CameraQuirk.ArduOV9782Controls),
                     // Innomaker OV9281
                     new QuirkyCamera(
-                            0x0c45, 0x636d, "USB Camera", "Innomaker OV9281", CameraQuirk.Gain, CameraQuirk.InnoOV9281Controls));
+                            0x0c45,
+                            0x636d,
+                            "USB Camera",
+                            "Innomaker OV9281",
+                            CameraQuirk.Gain,
+                            CameraQuirk.InnoOV9281Controls));
 
     public static final QuirkyCamera DefaultCamera = new QuirkyCamera(0, 0, "", CameraQuirk.Gain);
     public static final QuirkyCamera ZeroCopyPiCamera =

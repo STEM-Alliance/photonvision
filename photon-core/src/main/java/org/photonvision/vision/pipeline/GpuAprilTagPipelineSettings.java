@@ -38,7 +38,6 @@ public class GpuAprilTagPipelineSettings extends AdvancedPipelineSettings {
     public GpuAprilTagPipelineSettings() {
         super();
         pipelineType = PipelineType.GPUAprilTag;
-        outputShowMultipleTargets = true;
         targetModel = TargetModel.kAprilTag6p5in_36h11;
         cameraExposureRaw = 20;
         cameraAutoExposure = false;

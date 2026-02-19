@@ -20,7 +20,6 @@ package org.photonvision.vision.pipe.impl;
 import edu.wpi.first.apriltag.AprilTagDetection;
 import java.util.List;
 import org.opencv.core.Mat;
-
 import org.photonvision.jni.GpuDetectorJNI;
 import org.photonvision.vision.opencv.CVMat;
 import org.photonvision.vision.opencv.Releasable;
@@ -65,7 +64,8 @@ public class GpuAprilTagDetectionPipe extends CVPipe<CVMat, List<AprilTagDetecti
             paramsDirty = false;
         }
 
-        AprilTagDetection[] detectionsLine = GpuDetectorJNI.processimage(handle, mat.getNativeObjAddr());
+        AprilTagDetection[] detectionsLine =
+                GpuDetectorJNI.processimage(handle, mat.getNativeObjAddr());
 
         if (detectionsLine == null) {
             return List.of();

@@ -18,7 +18,6 @@
 package org.photonvision.vision.pipeline;
 
 import edu.wpi.first.apriltag.AprilTagDetection;
-import edu.wpi.first.apriltag.AprilTagDetector;
 import edu.wpi.first.apriltag.AprilTagPoseEstimate;
 import edu.wpi.first.apriltag.AprilTagPoseEstimator.Config;
 import edu.wpi.first.math.geometry.CoordinateSystem;
@@ -56,7 +55,8 @@ public class GpuAprilTagPipeline extends CVPipeline<CVPipelineResult, GpuAprilTa
 
     // The GPU detector works on greyscale images effectively (or handles conversion internally),
     // but the GpuDetectorJNI implementation expects a Mat. Let's provide GREYSCALE as a base.
-    // NOTE: GpuDetectorJNI implementation detail: it takes a Mat. If it expects GRAY, we should provide
+    // NOTE: GpuDetectorJNI implementation detail: it takes a Mat. If it expects GRAY, we should
+    // provide
     // GRAY.
     // The C++ code calls 'DetectGrayHost', suggesting it wants a gray image.
     private static final FrameThresholdType PROCESSING_TYPE = FrameThresholdType.GREYSCALE;
@@ -101,7 +101,7 @@ public class GpuAprilTagPipeline extends CVPipeline<CVPipelineResult, GpuAprilTa
 
                 double k1 = 0, k2 = 0, p1 = 0, p2 = 0, k3 = 0;
                 if (distCoeffs != null && distCoeffs.rows() > 0) {
-                    // Check size to avoid OOB. 
+                    // Check size to avoid OOB.
                     // OpenCV dist coeffs: k1, k2, p1, p2, k3, k4, k5, k6
                     // GpuDetectorJNI accepts k1, k2, p1, p2, k3
                     int cols = distCoeffs.cols();
@@ -123,8 +123,7 @@ public class GpuAprilTagPipeline extends CVPipeline<CVPipelineResult, GpuAprilTa
                 // TODO global state ew
                 var atfl = ConfigManager.getInstance().getConfig().getApriltagFieldLayout();
                 multiTagPNPPipe.setParams(
-                        new MultiTargetPNPPipeParams(
-                                frameStaticProperties.cameraCalibration, atfl, tagModel));
+                        new MultiTargetPNPPipeParams(frameStaticProperties.cameraCalibration, atfl, tagModel));
             }
         }
     }

@@ -181,7 +181,8 @@ public class OutputStreamPipeline {
                 sumPipeNanosElapsed += pipeProfileNanos[7] = drawOnInputResult.nanosElapsed;
 
                 pipeProfileNanos[8] = 0;
-            } else if (settings instanceof AprilTagPipelineSettings || settings instanceof GpuAprilTagPipelineSettings) {
+            } else if (settings instanceof AprilTagPipelineSettings
+                    || settings instanceof GpuAprilTagPipelineSettings) {
                 // If we are doing apriltags...
                 if (settings.solvePNPEnabled) {
                     // Draw 3d Apriltag markers (camera is calibrated and running in 3d mode)

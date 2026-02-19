@@ -105,6 +105,12 @@ class PhotonCamera:
         self.versionEntry = photonvision_root_table.getStringTopic("version").subscribe(
             ""
         )
+        self._recordingPublisher = photonvision_root_table.getBooleanTopic(
+            "recordingRequest"
+        ).publish()
+        self._recordingSubscriber = photonvision_root_table.getBooleanTopic(
+            "recordingState"
+        ).subscribe(False)
 
         # Existing is enough to make this multisubscriber do its thing
         self.topicNameSubscriber = ntcore.MultiSubscriber(
@@ -260,6 +266,20 @@ class PhotonCamera:
         """
 
         self._ledModeRequest.set(led.value)
+
+    def isRecording(self) -> bool:
+        """Returns whether the camera is currently recording video.
+
+        :returns: Whether the camera is currently recording.
+        """
+        return self._recordingSubscriber.get()
+
+    def setRecording(self, recording: bool) -> None:
+        """Sets whether the camera should record video.
+
+        :param recording: Whether to start (true) or stop (false) recording.
+        """
+        self._recordingPublisher.set(recording)
 
     def getName(self) -> str:
         """Returns the name of the camera. This will return the same value that was given to the

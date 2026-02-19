@@ -82,6 +82,7 @@ public class NetworkTablesManager {
     private final TimeSyncManager m_timeSync = new TimeSyncManager(kRootTable);
 
     NTDriverStation ntDriverStation;
+    NTVideoRecordingManager videoRecordingManager;
 
     private NetworkTablesManager() {
         ntInstance.addLogger(
@@ -92,6 +93,7 @@ public class NetworkTablesManager {
                 m_fieldLayoutSubscriber, EnumSet.of(Kind.kValueAll), this::onFieldLayoutChanged);
 
         ntDriverStation = new NTDriverStation(this.getNTInst());
+        videoRecordingManager = new NTVideoRecordingManager(kRootTable, this.getNTInst());
 
         // This should start as false, since we don't know if there's a conflict yet
         conflictAlert.set(false);
@@ -107,6 +109,9 @@ public class NetworkTablesManager {
         TimedTaskManager.getInstance().addTask("NTManager", this::ntTick, 5000);
         TimedTaskManager.getInstance()
                 .addTask("CheckHostnameAndCameraNames", this::checkHostnameAndCameraNames, 10000);
+        TimedTaskManager.getInstance()
+                .addTask(
+                        "VideoRecordingStateUpdate", () -> videoRecordingManager.updateRecordingState(), 5000);
     }
 
     private static NetworkTablesManager INSTANCE;
